@@ -38,7 +38,6 @@ const sendMailx = async (output, email, h, s) => {
 };
 
 const sendingMsg = (name, value, heading, email) => {
-  edit;
   if (value > 0) {
     const themsg = `Your ${name} of ${value}USD has been approved for your account. 
     \nThank you for choosing Asset proxy . For complaints or inquires, do not hesitate to contact our 24/7 support team via email: support@assestproxy.com \n
@@ -130,6 +129,27 @@ export const deleteUser = async (req, res) => {
     //if not the admin delete
     await User.findOneAndRemove({ email });
     res.json({ msg: "user deleted successfully" });
+  }
+};
+
+export const blockUser = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Toggle the user account status (block/unblock)
+    user.blocked = !user.blocked; // Flip the active status
+    await user.save();
+
+    const statusMessage = user.blocked ? 'User unblocked' : 'User blocked';
+    return res.status(200).json({ message: statusMessage });
+  } catch (err) {
+    return res.status(500).json({ message: 'Could not toggle user account status', error: err.message });
   }
 };
 

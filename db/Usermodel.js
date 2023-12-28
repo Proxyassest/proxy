@@ -48,7 +48,11 @@ const userSchema = new mongoose.Schema({
   active: {
     type: Boolean,
     default: false
-  }
+  },
+  blocked: {
+    type: Boolean,
+    default: false, // Assuming default status is not blocked
+  },
 });
 
 export default mongoose.model('User', userSchema);

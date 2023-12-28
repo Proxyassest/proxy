@@ -27,18 +27,14 @@ app.post('/protected', requireAuth);
 app.use(authRoutes);
 app.use(adminRoutes);
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
 
 app.listen(PORT, () => {
   console.log('app running on ' + PORT);
+  // console.log("first", process.env.PORT);
+  // console.log("second", process.env);
+
+
 });
 
-setInterval(() => {
-  axios.get('https://braxtr.onrender.com/').then(resp => {
-
-    console.log(resp.data);
-  }).catch((err) => {
-    console.log({ err })
-  });
-}, 780000);
 
